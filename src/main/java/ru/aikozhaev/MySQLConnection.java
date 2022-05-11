@@ -17,7 +17,7 @@ public class MySQLConnection {
     private String password;
     private String connectionURL;
 
-    private static int count = 2;
+    private static int COUNT = 0;
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -73,8 +73,9 @@ public class MySQLConnection {
         }
         return false;
     }
-  public void insertIntoDatabase(String textMessage) {
-        StringBuilder sql = new StringBuilder("INSERT INTO message (context) VALUES " + textMessage);
+
+    public void insertIntoDatabase(String textMessage) {
+        StringBuilder sql = new StringBuilder("INSERT INTO message (context) VALUES (\"" + textMessage + "\")");
         try {
             PreparedStatement statement = this.getMySQLConnection().prepareStatement(sql.toString());
             statement.executeUpdate();
@@ -82,11 +83,12 @@ public class MySQLConnection {
             e.printStackTrace();
         }
     }
+
     public void insertIntoDatabaseHeaders(String messageId, String destination, int deliveryMode,
-                                          long timeStamp, long expiration, int priority, String correlationId, String type, boolean redelivered) {
-        StringBuilder sql = new StringBuilder("INSERT INTO headers (id_message, destination, deliverymode, timestamp," +
-                "expiration, priority, id_correlation, type, redelivered) VALUES " + messageId + ", " + destination + ", " + deliveryMode + ", " + timeStamp
-                + ", " + expiration +", " + priority +", " +correlationId + ", " + type+ ", " + redelivered);
+                                          long timeStamp, long expiration, int priority, String correlationId, String type, boolean redelivered, int id) {
+        StringBuilder sql = new StringBuilder("INSERT INTO headers (id_message, destination, deliverymode, timestamp, " +
+                "expiration, priority, id_correlation, type, redelivered, id_mes) VALUES (\"" + messageId + "\", " + "\"" + destination + "\", " + deliveryMode + ", " +
+                timeStamp + ", " + expiration + ", " + priority + ", " + "\"" + correlationId + "\", " + "\"" + type + "\", " + redelivered + ", " + ++COUNT + ")");
         try {
             PreparedStatement statement = this.getMySQLConnection().prepareStatement(sql.toString());
             statement.executeUpdate();
