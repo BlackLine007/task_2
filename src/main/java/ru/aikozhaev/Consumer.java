@@ -66,7 +66,7 @@ public class Consumer implements Runnable {
                     try {
                         System.out.println("Сообщение получил 1-й клиент, текст сообщения: "
                                 + ((TextMessage) msg).getText());
-                        sqlConnection.insertIntoDatabase(((TextMessage) msg).getText());
+                    //    sqlConnection.insertIntoDatabase(((TextMessage) msg).getText());
                     sqlConnection.insertIntoDatabaseHeaders(msg.getJMSMessageID(), String.valueOf(msg.getJMSDestination()), msg.getJMSDeliveryMode(),
                         msg.getJMSTimestamp(), msg.getJMSExpiration(), msg.getJMSPriority(), msg.getJMSCorrelationID(),msg.getJMSType(), msg.getJMSRedelivered(), ++col);
                     } catch (JMSException e) {
